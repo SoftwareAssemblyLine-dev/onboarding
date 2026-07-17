@@ -1,0 +1,52 @@
+{
+  "name": "login-app",
+  "version": "1.0.0",
+  "description": "A login and user registration application built with Node.js and Express.",
+  "main": "source/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node source/server.js",
+    "dev": "nodemon source/server.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "lint": "eslint source/",
+    "lint:fix": "eslint source/ --fix",
+    "format": "eslint --fix source/",
+    "format:check": "eslint source/",
+    "format:all": "npm run format && npm run lint:fix"
+  },
+  "jest": {
+    "transform": {},
+    "moduleFileExtensions": [
+      "js",
+      "mjs"
+    ],
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "source/**/*.js",
+      "!source/server.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 70,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  },
+  "keywords": [],
+  "author": "Leo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.7.0",
+    "globals": "^17.7.0",
+    "jest": "^30.4.2",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
+  }
+}
