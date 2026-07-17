@@ -1,19 +1,7 @@
-//const request = require("supertest")
 import request from "supertest"
 import app from "../server.js"
 
 //We need the app without starting the server, so we can test the routes directly
-/*let testApp
-
-beforeEach(() => 
-{
-    jest.resetModules()
-    //Prevent server.js from calling app.listen() during tests
-    process.env.PORT = 0 //Signal to server.js not to start listening (optional pattern)
-    //app = require("../server.js")
-    testApp = app
-})*/
-
 describe("Auth Routes", () => 
 {
     describe("POST /api/auth/register", () => 

@@ -63,5 +63,4 @@ const validateLogin = (_request, _response, _next) =>
     _next()
 }
 
-//module.exports = { validateRegistration, validateLogin }
 export default { validateRegistration, validateLogin }

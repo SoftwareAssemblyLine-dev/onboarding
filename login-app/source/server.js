@@ -1,6 +1,3 @@
-//const express = require("express")
-//const path = require("path")
-//const authRoutes = require("./routes/auth.js")
 import express from "express"
 import path from "path"
 import { fileURLToPath } from "url"
@@ -11,7 +8,6 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const app = express()
-//const PORT = process.env.PORT || 3000
 
 //Parse JSON bodies for API requests
 app.use(express.json())
@@ -41,5 +37,4 @@ if(import.meta.url === `file://${process.argv[1]}`)
     })
 }
 
-//module.exports = app 
 export default app 
