@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        // Where to output the compiled JavaScript files
+        "outDir": "./dist",
+        // Where TypeScript source files are located
+        "rootDir": "./source",
+        // Which ECMAScript version to target (Node 20 supports ES2022 fully)
+        "target": "ES2022",
+        // Module system to use (ES modules for type: "module" in package.json)
+        "module": "nodenext",             //or "NodeNext" or "ESNext", "ES2022"
+        // Module resolution strategy. Tells TypeScript how to resolve module imports 
+        "moduleResolution": "nodenext",     // or "NodeNext" or "node16", "node"
+        "isolatedModules": true,            // This satisfies ts-jest’s hybrid ESM warning for `moduleResolution: "nodenext"`.
+        // Enable all strict type-checking options
+        "strict": true,
+        // Allow default imports from CommanJS modules (import express from "express")
+        "esModuleInterop": true,
+        // Skip type checking of declaration files (*.d.ts) in node_modules
+        "skipLibCheck": true,
+        // Enforce consistent casing in file names (catches import "./Auth" vs "./auth")
+        "forceConsistentCasingInFileNames": true,
+        // Generate .js files from .ts files 
+        "noEmit": false,
+        // Allow importing .js files (needed during migration if some files remain JS)
+        "allowJs": false,
+        // Generate source maps from debugging purposes (maps compiled JS back to TS)
+        "sourceMap": true,
+    },
+    // Which files to compile (all files in the source directory)
+    "include": ["source/**/*"],
+    // Which files to ignore (node_modules, dist directories and coverage reports)
+    "exclude": ["node_modules", "dist", "coverage"]
+}

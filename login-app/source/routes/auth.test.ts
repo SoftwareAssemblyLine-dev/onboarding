@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach } from '@jest/globals'
 import request from "supertest"
 import app from "../server.js"
 
@@ -15,6 +16,8 @@ describe("Auth Routes", () =>
             expect(response.status).toBe(201)
             expect(response.body.success).toBe(true)
             expect(response.body.user.email).toBe("newuser@test.com")
+            // Ensure password is never returned
+            expect(response.body.user.password).toBeUndefined()
         })
 
         it("should reject registration without email", async () => 
@@ -24,7 +27,8 @@ describe("Auth Routes", () =>
                 .send({ password: "testpass123" })
             
             expect(response.status).toBe(400)
-            expect(response.body.success).toBe(false)    
+            expect(response.body.success).toBe(false)
+            expect(response.body.errors).toBeDefined()  
         })
     })
 

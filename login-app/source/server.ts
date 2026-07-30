@@ -30,11 +30,11 @@ app.get("/", (_request, _response) =>
 //Only start the server it this is run directly (If your server auto-starts on import: This should export the app without starting it) 
 if(import.meta.url === `file://${process.argv[1]}`)
 {
-    const PORT = process.env.PORT || 3000
+    const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => 
     {
         console.log(`Server is running on http://localhost:${PORT}`)
     })
 }
 
-export default app 
+export default app
