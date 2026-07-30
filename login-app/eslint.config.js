@@ -1,7 +1,7 @@
 import globals from "globals"
 import js from "@eslint/js"
-//import ts from "@typescript-eslint/eslint-plugin"
-//import tsParser from "@typescript-eslint/parser"
+import ts from "@typescript-eslint/eslint-plugin"  //npm install --save-dev @typescript-eslint/eslint-plugin
+import tsParser from "@typescript-eslint/parser"
 
 export default [
     {
@@ -45,8 +45,8 @@ export default [
     // ============================================
     // TYPESCRIPT FILES - Semicolons REQUIRED
     // ============================================
-    /*{
-        files: ["** /*.ts", "** /*.tsx"],
+    {
+        files: ["**/*.ts", "**/*.tsx"],
         plugins: {
             "@typescript-eslint": ts
         },
@@ -59,10 +59,13 @@ export default [
         rules: {
             // Allman style for TypeScript too
             "brace-style": ["error", "allman", { "allowSingleLine": true }],
-            // TypeScript - SEMICOLONS REQUIRED
-            "semi": ["error", "always"],
+            // TypeScript - SEMICOLONS Optional 
+            //"semi": ["error", "never"],
+            "semi": "off",
+            // BUT also add this to disable the base rule:
+            //"@typescript-eslint/semi": ["error", "never"],  // Use TypeScript-specific rule
             // TypeScript specific rules
-            "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+            //"@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
             "@typescript-eslint/explicit-function-return-type": "off",
             // Other formatting
             "indent": ["error", 4],
@@ -72,7 +75,7 @@ export default [
             "space-before-function-paren": ["error", "always"],
             "no-console": "off"
         }
-    },*/
+    },
     // ============================================
     // COMMONJS FILES 
     // ============================================
