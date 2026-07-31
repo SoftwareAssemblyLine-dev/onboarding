@@ -1,0 +1,17 @@
+#!/usr/bin/env sh 
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "-----------------------------"
+echo " Speed Gate: Running unit tests..."
+echo "-----------------------------"
+
+npm test -- --passWithNoTests
+
+if [ $? -ne 0 ]; then 
+    echo ""
+    echo "✗ Tests failed. Push rejected."
+    echo "  Fix failing tests before pushing."
+    exit 1
+fi
+
+echo "✓ All tests passed. Push proceeding..."

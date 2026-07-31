@@ -1,0 +1,5 @@
+#!/usr/bin/env sh 
+#npm test
+
+# Run the staged checks before commit 
+npx lint-staged 
