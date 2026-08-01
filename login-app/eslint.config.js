@@ -62,6 +62,7 @@ export default [
             // TypeScript - SEMICOLONS Optional 
             //"semi": ["error", "never"],
             "semi": "off",
+            "no-undef": "error",
             // BUT also add this to disable the base rule:
             //"@typescript-eslint/semi": ["error", "never"],  // Use TypeScript-specific rule
             // TypeScript specific rules

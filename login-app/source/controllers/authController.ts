@@ -84,8 +84,7 @@ export const createAuthController = (initialUsers: User[] = []) =>
         _response: Response<ApiResponse<SafeUser>>): void => 
     {
         const { email, password } = _request.body
-        console.log(undefinedVariable)
-
+        
         const user = users.find((_user) => _user.email === email)
         if(!user) 
         {
