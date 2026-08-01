@@ -46,7 +46,7 @@ describe("Auth Controller", () =>
                 mockResponse as Response
             )
 
-            expect(mockResponse.status).toHaveBeenCalledWith(201)
+            expect(mockResponse.status).toHaveBeenCalledWith(999)
             expect(mockResponse.json).toHaveBeenCalledWith(
                 expect.objectContaining({
                     success: true,
