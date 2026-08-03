@@ -64,9 +64,6 @@
     "*.ts": [
       "eslint --fix",
       "npm run type-check"
-    ],
-    "*.{html,css,json,md}": [
-      "prettier --write"
     ]
   },
   "keywords": [],
