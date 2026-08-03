@@ -3,4 +3,5 @@
 
 # Run the staged checks before commit 
 cd "$(git rev-parse --show-toplevel)/login-app" || exit 1 #Because the pre-commit hook is in the .husky folder, we need to change the working directory to the root of the project before running lint-staged
-npx lint-staged 
+
+npx lint-staged

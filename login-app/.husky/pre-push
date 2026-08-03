@@ -1,9 +1,11 @@
 #!/usr/bin/env sh 
-. "$(dirname -- "$0")/_/husky.sh"
 
 echo "-----------------------------"
 echo " Speed Gate: Running unit tests..."
 echo "-----------------------------"
+
+# Change to the login-app directory
+cd "$(git rev-parse --show-toplevel)/login-app" || exit 1
 
 npm test -- --passWithNoTests
 
