@@ -1,6 +1,6 @@
 # onboarding
 
-[Software Assembly Line mental model](../software_assembly_line_model-v2.md)
+[Software Assembly Line mental model](../software_assembly_line_model-v3.md)
 
 ## Layer 0 Complete — The Full Picture
 

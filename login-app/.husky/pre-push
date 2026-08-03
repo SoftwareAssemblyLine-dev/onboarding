@@ -1,0 +1,19 @@
+#!/usr/bin/env sh 
+
+echo "-----------------------------"
+echo " Speed Gate: Running unit tests..."
+echo "-----------------------------"
+
+# Change to the login-app directory
+cd "$(git rev-parse --show-toplevel)/login-app" || exit 1
+
+npm test -- --passWithNoTests
+
+if [ $? -ne 0 ]; then 
+    echo ""
+    echo "✗ Tests failed. Push rejected."
+    echo "  Fix failing tests before pushing."
+    exit 1
+fi
+
+echo "✓ All tests passed. Push proceeding..."
