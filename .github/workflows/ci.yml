@@ -29,20 +29,26 @@ jobs:
               with: 
                 node-version: ${{ env.NODE_VERSION }}
                 cache: "npm" 
+                cache-dependency-path: ./login-app/package-lock.json
 
             - name: Install dependencies 
+              working-directory: ./login-app
               run: npm ci
 
             - name: Format check
+              working-directory: ./login-app
               run: npm run format:check
 
             - name: Lint check
+              working-directory: ./login-app
               run: npm run lint 
 
             - name: Type check 
+              working-directory: ./login-app
               run: npm run type-check
 
             - name: Unit tests with coverage
+              working-directory: ./login-app
               run: npm test 
 
             - name: Upload coverage report 
@@ -50,7 +56,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: coverage-report
-                path: coverage/
+                path: ./login-app/coverage/
                 retention-days: 7
 
     # -- Job 2: Docker - Build and Push Docker Image ________________
@@ -71,25 +77,29 @@ jobs:
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
 
             - name: Build Docker image (:{{ github.sha }} --> :sha --> gives unique immutable image, traceability this image to this exact commit)
+              working-directory: ./login-app
               run: |
                 docker build \
-                    --tag ${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }} \  
+                    --tag ${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }} \
                     --tag ${{ secrets.DOCKERHUB_USERNAME }}/login-app:latest \
                     .
 
             - name: Smoke test the Docker image 
+              working-directory: ./login-app
               run: | 
                 docker run -d --name smoke-test -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }} 
                 sleep 3
-                curl --fall http://localhost:3000/api/auth/users || (docker logs smoke-test && exit 1)
+                curl --fail http://localhost:3000/api/auth/users || (docker logs smoke-test && exit 1)
                 docker stop smoke-test
 
             - name: Push to DockerHub
+              working-directory: ./login-app
               run: |
                 docker push ${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }}
                 docker push ${{ secrets.DOCKERHUB_USERNAME }}/login-app:latest
 
             - name: Image summery 
+              working-directory: ./login-app
               run: |
                 echo "### Docker Image Published" >> $GITHUB_STEP_SUMMERY
                 echo "**Image Name:** \ `${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }}\`" >> $GITHUB_STEP_SUMMERY 
