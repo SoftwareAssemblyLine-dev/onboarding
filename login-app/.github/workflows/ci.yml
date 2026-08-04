@@ -1,0 +1,96 @@
+name: CI Pipline - Truth Gate
+
+# -- When to run ________________
+on: 
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+# -- Envirenment Variables ________________
+env: 
+    NODE_VERSION: "20"
+    DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+
+# -- Jobs ________________
+jobs:
+
+    # -- Job 1: Quality Checks ________________
+    quality: 
+        name: Quality Checks/Gates
+        runs-on: ubuntu-latest
+
+        steps: 
+            - name: Checkout Code 
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js ${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v4 
+              with: 
+                node-version: ${{ env.NODE_VERSION }}
+                cache: "npm" 
+
+            - name: Install dependencies 
+              run: npm ci
+
+            - name: Format check
+              run: npm run format:check
+
+            - name: Lint check
+              run: npm run lint 
+
+            - name: Type check 
+              run: npm run type-check
+
+            - name: Unit tests with coverage
+              run: npm test 
+
+            - name: Upload coverage report 
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                name: coverage-report
+                path: coverage/
+                retention-days: 7
+
+    # -- Job 2: Docker - Build and Push Docker Image ________________
+    docker: 
+        name: Docker Build and Push
+        runs-on: ubuntu-latest
+        needs: quality # Only run if quality checks pass
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+        steps: 
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Login to DockerHub 
+              uses: docker/login-action@v3
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Build Docker image (:{{ github.sha }} --> :sha --> gives unique immutable image, traceability this image to this exact commit)
+              run: |
+                docker build \
+                    --tag ${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }} \  
+                    --tag ${{ secrets.DOCKERHUB_USERNAME }}/login-app:latest \
+                    .
+
+            - name: Smoke test the Docker image 
+              run: | 
+                docker run -d --name smoke-test -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }} 
+                sleep 3
+                curl --fall http://localhost:3000/api/auth/users || (docker logs smoke-test && exit 1)
+                docker stop smoke-test
+
+            - name: Push to DockerHub
+              run: |
+                docker push ${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }}
+                docker push ${{ secrets.DOCKERHUB_USERNAME }}/login-app:latest
+
+            - name: Image summery 
+              run: |
+                echo "### Docker Image Published" >> $GITHUB_STEP_SUMMERY
+                echo "**Image Name:** \ `${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }}\`" >> $GITHUB_STEP_SUMMERY 
+                echo "**Tag:** \ `latest\`" >> $GITHUB_STEP_SUMMERY
