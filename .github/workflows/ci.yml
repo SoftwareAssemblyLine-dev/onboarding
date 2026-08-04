@@ -1,4 +1,4 @@
-name: CI Pipline - Truth Gate
+name: CI Pipline - Truth Gate (automation for quality checks and docker image build and push)
 
 # -- When to run ________________
 on: 
