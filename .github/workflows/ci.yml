@@ -102,5 +102,5 @@ jobs:
               working-directory: ./login-app
               run: |
                 echo "### Docker Image Published" >> $GITHUB_STEP_SUMMARY
-                echo "**Image Name:** \ `${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY 
-                echo "**Tag:** \ `latest\`" >> $GITHUB_STEP_SUMMARY
+                echo "**Image Name:** \`${{ secrets.DOCKERHUB_USERNAME }}/login-app:${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY 
+                echo "**Tag:** \`${{ secrets.DOCKERHUB_USERNAME }}/login-app:latest\`" >> $GITHUB_STEP_SUMMARY
