@@ -10,12 +10,13 @@
     "dev": "nodemon --exec ts-node source/server.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "test:end2end": "jest --config jest.e2e.config.js --runInBand",
     "lint": "eslint source/ --ext .ts",
     "lint:fix": "eslint source/ --ext .ts --fix",
     "format": "eslint --fix source/",
     "format:check": "eslint source/",
     "format:all": "npm run format && npm run lint:fix",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit --project tsconfig.json",
     "prepare": "husky"
   },
   "jest": {
@@ -63,7 +64,7 @@
   "lint-staged": {
     "*.ts": [
       "eslint --fix",
-      "npm run type-check"
+      "bash -lc 'tsc --noEmit --project tsconfig.json'"
     ]
   },
   "keywords": [],
