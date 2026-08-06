@@ -39,11 +39,11 @@ export const validateRegistration = (
     //Password validation 
     if(!password)
     {
-        errors.push("Password is required.");
+        errors.push("Password is required.")
     }
     else if(password.length < 6)
     {
-        errors.push("Password must be at least 6 characters.");
+        errors.push("Password must be at least 6 characters long.")
     }
 
     if(errors.length > 0)

@@ -30,6 +30,37 @@ describe("Auth Routes", () =>
             expect(response.body.success).toBe(false)
             expect(response.body.errors).toBeDefined()  
         })
+
+        it("should reject invalid email format", async () => 
+        {
+            const response = await request(app)
+                .post("/api/auth/register")
+                .send({ email: "notAnEmail", password: "testpass123" })
+
+            expect(response.status).toBe(400)
+            expect(response.body.errors).toContain("Please enter a valid email address.")
+        })
+
+        it("should reject short passwords", async () => 
+        {
+            const response = await request(app)
+                .post("/api/auth/register")
+                .send({ email: "test@example.com", password: "123" })
+
+            expect(response.status).toBe(400)
+            expect(response.body.errors).toContain("Password must be at least 6 characters long.")
+        })
+
+        it("should handle empty request body", async () => 
+        {
+            const response = await request(app)
+                .post("/api/auth/register")
+                .send({})
+
+            expect(response.status).toBe(400)
+            expect(response.body.errors).toBeDefined()
+            expect(response.body.errors.length).toBeGreaterThanOrEqual(2)
+        })
     })
 
     describe("POST /api/auth/login", () => 
@@ -60,6 +91,40 @@ describe("Auth Routes", () =>
 
             expect(response.status).toBe(401)
             expect(response.body.success).toBe(false)
+        })
+
+        it("should reject missing email", async () => 
+        {
+            const response = await request(app)
+                .post("/api/auth/login")
+                .send({ password: "mypassword" })
+
+            expect(response.status).toBe(400)
+            expect(response.body.errors).toContain("Email is required.")
+        })
+
+        it("should reject empty request body", async () => 
+        {
+            const response = await request(app)
+                .post("/api/auth/login")
+                .send({})
+
+            expect(response.status).toBe(400)
+            expect(response.body.errors).toBeDefined()
+        })
+    })
+
+    describe("GET /api/auth/users", () => 
+    {
+        it("should return an empty list initially", async () => 
+        {
+            const response = await request(app)
+                .get("/api/auth/users")
+
+            expect(response.status).toBe(200)
+            expect(response.body.success).toBe(true)
+            expect(response.body.users).toBeDefined()
+            expect(Array.isArray(response.body.users)).toBe(true)
         })
     })
 })

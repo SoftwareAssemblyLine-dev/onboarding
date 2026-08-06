@@ -7,15 +7,18 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon --exec ts-node source/server.ts",
+    "dev": "nodemon --exec \"node --loader ts-node/esm\" source/server.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "test:end2end": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.e2e.config.js --runInBand",
+    "test:gui": "playwright test",
+    "test:gui:ui": "playwright test --ui",
     "lint": "eslint source/ --ext .ts",
     "lint:fix": "eslint source/ --ext .ts --fix",
     "format": "eslint --fix source/",
     "format:check": "eslint source/",
     "format:all": "npm run format && npm run lint:fix",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit --project tsconfig.json",
     "prepare": "husky"
   },
   "jest": {
@@ -47,8 +50,13 @@
     "testMatch": [
       "**/*.test.ts"
     ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/source/end2end/gui/"
+    ],
     "collectCoverageFrom": [
       "source/**/*.ts",
+      "!source/**/*.test.ts",
+      "!source/end2end/**/*.ts",
       "!source/server.ts"
     ],
     "coverageThreshold": {
@@ -63,7 +71,7 @@
   "lint-staged": {
     "*.ts": [
       "eslint --fix",
-      "npm run type-check"
+      "bash -lc 'tsc --noEmit --project tsconfig.json'"
     ]
   },
   "keywords": [],
@@ -74,6 +82,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
+    "@playwright/test": "^1.62.1",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.0",
     "@types/node": "^20.0.0",
