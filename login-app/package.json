@@ -50,6 +50,9 @@
     "testMatch": [
       "**/*.test.ts"
     ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/source/end2end/gui/"
+    ],
     "collectCoverageFrom": [
       "source/**/*.ts",
       "!source/server.ts"
