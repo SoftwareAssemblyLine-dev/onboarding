@@ -55,6 +55,7 @@
     ],
     "collectCoverageFrom": [
       "source/**/*.ts",
+      "!source/**/*.test.ts",
       "!source/end2end/**/*.ts",
       "!source/server.ts"
     ],
