@@ -87,7 +87,7 @@ describe("Validator Middleware", () =>
             expect(mockResponse.status).toHaveBeenCalledWith(400)
             expect(mockResponse.json).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    errors: expect.arrayContaining(["Password must be at least 6 characters."])
+                    errors: expect.arrayContaining(["Password must be at least 6 characters long."])
                 })
             )
             expect(nextFunction).not.toHaveBeenCalled()
