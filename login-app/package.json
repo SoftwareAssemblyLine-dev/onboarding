@@ -7,10 +7,10 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon --exec ts-node source/server.ts",
+    "dev": "nodemon --exec \"node --loader ts-node/esm\" source/server.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
-    "test:end2end": "jest --config jest.e2e.config.js --runInBand",
+    "test:end2end": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.e2e.config.js --runInBand",
     "test:gui": "playwright test",
     "test:gui:ui": "playwright test --ui",
     "lint": "eslint source/ --ext .ts",

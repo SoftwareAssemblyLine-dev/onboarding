@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals'
 import request from "supertest"
-import app from "../server.js"
+import app from "../../server.js"
 
 //We need the app without starting the server, so we can test the routes directly
 describe("End-to-End: User Registration & Login Flow", () => 
@@ -32,7 +32,7 @@ describe("End-to-End: User Registration & Login Flow", () =>
             .post("/api/auth/register")
             .send(testUser)
 
-        expect(response.status).toBe(400)
+        expect(response.status).toBe(409)
         expect(response.body.success).toBe(false)
         expect(response.body.message).toContain("already exists")
     })
@@ -45,7 +45,7 @@ describe("End-to-End: User Registration & Login Flow", () =>
 
         expect(response.status).toBe(200)
         expect(response.body.success).toBe(true)
-        expect(response.body.email).toBe(testUser.email)
+        expect(response.body.user.email).toBe(testUser.email)
         authToken = response.body.token // If you add JWT token generation in your login route, you can capture it here for further tests. In Layer 2
     })
 

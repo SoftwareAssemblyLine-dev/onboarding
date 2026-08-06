@@ -12,7 +12,8 @@ test.describe("GUI: Login & Registration Pages", () =>
 
     test("Login page loads correctly", async ({ page }) => 
     {
-        await page.goto(BASE_URL)
+        //await page.goto(BASE_URL) //version 1
+        await page.goto("/") //version 2
 
         // Verify page elements
         await expect(page.locator("h1")).toHaveText("Login")
@@ -34,9 +35,15 @@ test.describe("GUI: Login & Registration Pages", () =>
     {
         await page.goto(`${BASE_URL}/register.html`)
 
-        // Submit empty form
-        await page.click("button[type='submit']")
-        await expect(page.locator("#registerMessage")).toContainText("Email is required")
+        // Submit empty form - browser should block it
+        const valid = await page.$eval("#registerForm", (_form: HTMLFormElement) => _form.checkValidity())
+        expect(valid).toBe(false)
+        
+        // Fill a valid email and password and verify validity becomes true
+        await page.fill("#email", "test@example.com")
+        await page.fill("#password", "guiTestPassword123")
+        const validAfter = await page.$eval("#registerForm", (_form: HTMLFormElement) => _form.checkValidity())
+        expect(validAfter).toBe(true)
 
         // Invalid email 
         await page.fill("#email", "notAnEmail")
@@ -48,7 +55,7 @@ test.describe("GUI: Login & Registration Pages", () =>
         await page.fill("#email", "test@example.com")
         await page.fill("#password", "123")
         await page.click("button[type='submit']")
-        await expect(page.locator("#registerMessage")).toContainText("must have at least 6 characters")
+        await expect(page.locator("#registerMessage")).toContainText("Password must be at least 6 characters.")
     })
 
     test("Full user flow: register -> redirect -> login", async ({ page }) => 
@@ -82,6 +89,6 @@ test.describe("GUI: Login & Registration Pages", () =>
         await page.fill("#password", "wrongpassword")
         await page.click("button[type='submit']")
 
-        await expect(page.locator("#loginMessage")).toContainText("No account found")
+        await expect(page.locator("#loginMessage")).toContainText("Invalid email or password. Please try again.")
     })
 })

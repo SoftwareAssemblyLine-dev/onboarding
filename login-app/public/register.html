@@ -11,7 +11,7 @@
         <div class="container">
             <h1>Create Account</h1>
 
-            <form id="registerForm">
+            <form id="registerForm" novalidate>
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
                 
@@ -62,7 +62,7 @@
                     {
                         const errorMessage = data.errors ? data.errors.join(" ") : data.message
                         messageDiv.textContent = `${errorMessage}`
-                        messageDIv.className = "message error"
+                        messageDiv.className = "message error"
                     }
                 }
                 catch(error)

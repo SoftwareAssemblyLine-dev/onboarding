@@ -1,11 +1,15 @@
 export default {
-    preset: "ts-jest",
+    preset: "ts-jest/presets/default-esm",
     testEnvironment: "node",
-    roots: ["<rootDir>/source"],
-    testMatch: ["**/*.e2e.test.ts"],
+    roots: ["<rootDir>/source/end2end/jest"],
+    testMatch: ["**/*.test.ts"],
+    extensionsToTreatAsEsm: [".ts"],
+    moduleNameMapper: {
+        "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
     moduleFileExtensions: ["ts", "js", "json"],
     transform: {
-        "^.+\\.ts$": "ts-jest"
+        "^.+\\.ts$": ["ts-jest", { useESM: true }]
     }
 }
 

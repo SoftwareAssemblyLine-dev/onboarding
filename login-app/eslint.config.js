@@ -24,7 +24,8 @@ export default [
             sourceType: "module",
             globals: {
                 ...globals.node,
-                ...globals.jest
+                ...globals.jest,
+                ...globals.browser
             }
         },
         rules: {
@@ -54,7 +55,11 @@ export default [
             parser: tsParser,
             ecmaVersion: 2021,
             sourceType: "module",
-            globals: { ...globals.node, ...globals.jest }
+            globals: { 
+                ...globals.node, 
+                ...globals.jest,
+                ...globals.browser 
+            }
         },
         rules: {
             // Allman style for TypeScript too
@@ -87,7 +92,8 @@ export default [
             sourceType: "commonjs",
             globals: {
                 ...globals.node,
-                ...globals.jest
+                ...globals.jest,
+                ...globals.browser
             }
         },
         rules: {
