@@ -59,6 +59,27 @@ jobs:
                 path: ./login-app/coverage/
                 retention-days: 7
 
+            - name: Integration & End2End (E2E) tests 
+              working-directory: ./login-app 
+              run: npm run test:end2end
+
+            - name: GUI tests (Playwright) 
+              working-directory: ./login-app 
+              run: | 
+                npx playwright install --with-deps chromium 
+                npm run test:gui & sleep 3 
+                npx playwright test 
+              env: 
+                PLAYWRIGHT_BASE_URL: http://localhost:3000 
+
+            - name: Upload Playwright report 
+              if: always() 
+              uses: actions/upload-artifact@v5 
+              with: 
+                name: playwright-report 
+                path: playwright-report/ 
+                retention-days: 7 
+
     # -- Job 2: Docker - Build and Push Docker Image ________________
     docker: 
         name: Docker Build and Push
