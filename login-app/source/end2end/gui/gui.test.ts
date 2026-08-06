@@ -55,7 +55,7 @@ test.describe("GUI: Login & Registration Pages", () =>
         await page.fill("#email", "test@example.com")
         await page.fill("#password", "123")
         await page.click("button[type='submit']")
-        await expect(page.locator("#registerMessage")).toContainText("Password must be at least 6 characters.")
+        await expect(page.locator("#registerMessage")).toContainText("Password must be at least 6 characters long.")
     })
 
     test("Full user flow: register -> redirect -> login", async ({ page }) => 
